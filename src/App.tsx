@@ -1,24 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import AddButton from "./components/AddButton";
+import { TaskKard } from "./components/TaskKard";
+import "./styles/styles.css";
+import Column from "./components/Column";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="title">Kanban Board</h1>
+      <div className="board">
+        <Column data="1" column_name="Заплановано" />
+        <Column data="2" column_name="В процесі" />
+      </div>
     </div>
   );
 }
