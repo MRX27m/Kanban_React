@@ -1,19 +1,15 @@
-import React, { useState } from "react";
-import AddButton from "./components/AddButton";
-import { TaskKard } from "./components/TaskKard";
 import "./styles/styles.css";
-import Column from "./components/Column";
+import { Workpres } from "./components/workpres/Workpres";
+import { SelectWorkpres } from "./components/forms/SelectWorkpres";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-function App() {
+export function App() {
   return (
-    <div className="App">
-      <h1 className="title">Kanban Board</h1>
-      <div className="board">
-        <Column data="1" column_name="Заплановано" />
-        <Column data="2" column_name="В процесі" />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SelectWorkpres id="2" name="с" />} />
+        <Route path="/workpres/:id" element={<Workpres />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

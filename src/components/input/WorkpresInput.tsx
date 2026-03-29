@@ -1,21 +1,21 @@
 import React, { FC } from "react";
 
-type CardInputProps = {
+type WorkpresInputProps = {
   value: string;
   setValue: (v: string) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export const CardInput: FC<CardInputProps> = ({
+export const WorkpresInput: FC<WorkpresInputProps> = ({
   value,
   setValue,
   onKeyDown,
 }) => {
   return (
     <input
-      className="input-card"
+      className="input-workpres"
       type="text"
-      placeholder="Введіть нову задачу"
+      placeholder="Введіть назву дошки"
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={onKeyDown}

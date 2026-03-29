@@ -1,21 +1,21 @@
 import React, { FC } from "react";
 
-type CardInputProps = {
+type ColumnInputProps = {
   value: string;
   setValue: (v: string) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export const CardInput: FC<CardInputProps> = ({
+export const ColumnInput: FC<ColumnInputProps> = ({
   value,
   setValue,
   onKeyDown,
 }) => {
   return (
     <input
-      className="input-card"
+      className="input-column"
       type="text"
-      placeholder="Введіть нову задачу"
+      placeholder="Введіть назву колонки"
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={onKeyDown}
