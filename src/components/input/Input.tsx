@@ -4,18 +4,20 @@ type CardInputProps = {
   value: string;
   setValue: (v: string) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  placeholder: string;
 };
 
-export const CardInput: FC<CardInputProps> = ({
+export const Input: FC<CardInputProps> = ({
   value,
   setValue,
   onKeyDown,
+  placeholder,
 }) => {
   return (
     <input
-      className="input-card"
+      className="input"
       type="text"
-      placeholder="Введіть нову задачу"
+      placeholder={placeholder}
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={onKeyDown}

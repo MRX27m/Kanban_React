@@ -1,0 +1,128 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1;
+  width: 320px;
+  padding: 28px 24px 24px;
+  border-radius: 20px;
+  background: rgba(136, 122, 122, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  color: #fff;
+  font-family: "Inder", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  line-height: 1;
+}
+
+.close-button:hover {
+  background: red;
+  transform: scale(1.1);
+}
+
+.confirm-modal {
+  z-index: 1001;
+}
+
+.confirm-content {
+  width: 280px;
+  padding: 28px 24px 20px;
+  border-radius: 20px;
+  background: rgba(30, 20, 40, 0.85);
+  backdrop-filter: blur(20px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.confirm-content p {
+  font-family: "Inder", sans-serif;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.confirm-yes,
+.confirm-no {
+  padding: 10px 28px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-family: "Inder", sans-serif;
+  font-size: 13px;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+
+.confirm-yes {
+  background: linear-gradient(42deg, #0b2688, #cc088e);
+  color: #fff;
+}
+
+.confirm-yes:hover {
+  transform: translateY(-2px);
+}
+
+.confirm-yes:active {
+  transform: translateY(1px) scale(0.97);
+  background: linear-gradient(42deg, #092176, #a70875);
+}
+
+.confirm-no {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.confirm-no:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-no:active {
+  transform: translateY(1px) scale(0.97);
+}

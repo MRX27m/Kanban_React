@@ -1,14 +1,19 @@
 import "./styles/styles.css";
-import { Workpres } from "./components/workpres/Workpres";
-import { SelectWorkpres } from "./components/forms/SelectWorkpres";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { SelectWorkSpace } from "./components/forms/SelectWorkSpace";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { WorkSpace } from "./components/workspace/WorkSpace";
+import { NavigationEnum } from "./enum/enums";
 
 export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SelectWorkpres id="2" name="с" />} />
-        <Route path="/workpres/:id" element={<Workpres />} />
+        <Route path="/" element={<Navigate to="/SelectWorkpres" replace />} />
+        <Route
+          path={NavigationEnum.selectWorkSpace}
+          element={<SelectWorkSpace />}
+        />
+        <Route path="/workpres/:id" element={<WorkSpace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -93,7 +93,7 @@ body {
   align-items: center;
 }
 
-.input-card {
+.input {
   padding: 15px 15px 15px;
   border: 10px;
   border-radius: 20px;
@@ -110,23 +110,7 @@ body {
   position: relative;
   transition: all 0.25s ease;
 }
-.input-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-}
-.input-column {
-  position: absolute;
-  top: 30px;
-  right: 40px;
-  background: rgba(136, 122, 122, 0.5);
-  width: 160px;
-  height: 25px;
-  border: 10px;
-  border-radius: 20px;
-  padding: 10px;
-  transition: all 0.25s ease;
-}
-.input-column:hover {
+.input:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }

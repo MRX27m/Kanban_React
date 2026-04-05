@@ -1,34 +1,24 @@
 import React, { FC, useState } from "react";
-import { TaskKard } from "./TaskKard";
-import { AddButton } from "./buttons/AddButton";
-import { CardInput } from "./input/CardInput";
-import { LeftBtnColumn } from "./buttons/LeftBtnColumn";
-import { RightBtnColumn } from "./buttons/RightBtnColumn";
-import { RmColumnButton } from "./buttons/RmColumnButton";
-import { ColumnType } from "./exportedTypes/TypesInWorkpres";
+import { TaskCard } from "./TaskCard";
+import { Input } from "./input/Input";
+import { ColumnType } from "../types/TypesInWorkpres";
+import { Modal } from "./modal/Modal";
+import { LeftRightEnum } from "../enum/enums";
+import { Button } from "./buttons/Button";
+import { useColumnStore } from "../store/WorkspaceStore";
 
 type ColumnProps = {
   column: ColumnType;
   colIndex: number;
   totalColumns: number;
-  addTask: (colIndex: number, text: string) => void;
-  removeTask: (colIndex: number, taskId: string) => void;
-  moveTask: (taskId: string, colIndex: number, dir: "left" | "right") => void;
-  moveColumn: (colIndex: number, dir: "left" | "right") => void;
-  removeColumn: (column: ColumnType) => void;
 };
 
-export const Column: FC<ColumnProps> = ({
-  column,
-  colIndex,
-  totalColumns,
-  addTask,
-  removeTask,
-  moveTask,
-  moveColumn,
-  removeColumn,
-}) => {
+export const Column: FC<ColumnProps> = ({ column, colIndex, totalColumns }) => {
+  const { addTask, removeTask, editTask, moveTask, moveColumn, removeColumn } =
+    useColumnStore();
+
   const [value, setValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const isFirst = colIndex === 0;
   const isLast = colIndex === totalColumns - 1;
@@ -36,6 +26,7 @@ export const Column: FC<ColumnProps> = ({
   const handleAddTask = () => {
     addTask(colIndex, value);
     setValue("");
+    setIsOpen(false);
   };
 
   return (
@@ -44,36 +35,59 @@ export const Column: FC<ColumnProps> = ({
         {column.name}
         <div className="column-buttons">
           {!isFirst && (
-            <LeftBtnColumn onClick={() => moveColumn(colIndex, "left")} />
+            <Button
+              className="left-column-button"
+              children="⬅"
+              onClick={() => moveColumn(colIndex, LeftRightEnum.left)}
+            />
           )}
           {!isLast && (
-            <RightBtnColumn onClick={() => moveColumn(colIndex, "right")} />
+            <Button
+              children="➡"
+              className="right-column-button"
+              onClick={() => moveColumn(colIndex, LeftRightEnum.right)}
+            />
           )}
         </div>
       </div>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <Input
+          placeholder="Введіть нову задачу"
+          value={value}
+          setValue={setValue}
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") handleAddTask();
+          }}
+        />
+      </Modal>
+      <Button
+        children="Add card +"
+        className="add-card"
+        onClick={() => setIsOpen(true)}
+      ></Button>
 
-      <CardInput
-        value={value}
-        setValue={setValue}
-        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === "Enter") handleAddTask();
-        }}
+      <Button
+        children="X"
+        className="rm-column-btn"
+        onClick={() => removeColumn(column)}
       />
-
-      <AddButton onClick={handleAddTask} />
-      <RmColumnButton onClick={() => removeColumn(column)} />
 
       <div className="tasks">
         {column.tasks.map((task) => (
-          <TaskKard
+          <TaskCard
             key={task.id}
+            onEdit={(newText) => editTask(colIndex, task.id, newText)}
             taskText={task.text}
             onRemove={() => removeTask(colIndex, task.id)}
             moveLeft={
-              !isFirst ? () => moveTask(task.id, colIndex, "left") : undefined
+              !isFirst
+                ? () => moveTask(task.id, colIndex, LeftRightEnum.left)
+                : undefined
             }
             moveRight={
-              !isLast ? () => moveTask(task.id, colIndex, "right") : undefined
+              !isLast
+                ? () => moveTask(task.id, colIndex, LeftRightEnum.right)
+                : undefined
             }
           />
         ))}
