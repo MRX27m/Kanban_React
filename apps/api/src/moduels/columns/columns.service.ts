@@ -35,18 +35,31 @@ export class ColumnsService {
       where: { boardId },
       orderBy: { order: 'asc' },
     });
+
     const index = columns.findIndex((c) => c.id === id);
     const targetIndex = direction === 'left' ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= columns.length) return columns;
 
-    await this.prisma.column.update({
-      where: { id: columns[index].id },
-      data: { order: columns[targetIndex].order },
-    });
-    await this.prisma.column.update({
-      where: { id: columns[targetIndex].id },
-      data: { order: columns[index].order },
-    });
+    await this.prisma.$transaction(
+      columns.map((col, i) =>
+        this.prisma.column.update({
+          where: { id: col.id },
+          data: { order: i },
+        }),
+      ),
+    );
+
+    await this.prisma.$transaction([
+      this.prisma.column.update({
+        where: { id: columns[index].id },
+        data: { order: targetIndex },
+      }),
+      this.prisma.column.update({
+        where: { id: columns[targetIndex].id },
+        data: { order: index },
+      }),
+    ]);
+
     return this.prisma.column.findMany({
       where: { boardId },
       include: { tasks: true },

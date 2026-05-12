@@ -10,23 +10,6 @@ import { CreateBoardDto, AddMemberDto } from './boards.dto';
 export class BoardsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async checkAccess(boardId: string, userId: string) {
-    const member = await this.prisma.boardMember.findUnique({
-      where: { userId_boardId: { userId, boardId } },
-    });
-    if (!member) {
-      throw new ForbiddenException('Немає доступу до цієї дошки');
-    }
-    return member;
-  }
-
-  async checkOwner(boardId: string, userId: string) {
-    const member = await this.checkAccess(boardId, userId);
-    if (member.role !== 'owner') {
-      throw new ForbiddenException('Тільки власник може виконати цю дію');
-    }
-  }
-
   async findAll(userId: string) {
     return this.prisma.board.findMany({
       where: { members: { some: { userId } } },

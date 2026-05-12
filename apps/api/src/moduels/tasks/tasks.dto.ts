@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createZodDto } from 'nestjs-zod';
 
-const CreateTaskSchema = z.object({
+export const createTaskSchema = z.object({
   text: z
     .string()
     .min(1, "Текст обов'язковий")
@@ -9,16 +9,16 @@ const CreateTaskSchema = z.object({
   columnId: z.string().optional(),
 });
 
-const UpdateTaskSchema = z.object({
+export const updateTaskSchema = z.object({
   text: z.string().min(1).max(200).optional(),
   order: z.number().int().min(0).optional(),
 });
 
-const MoveTaskSchema = z.object({
+export const moveTaskSchema = z.object({
   direction: z.enum(['left', 'right']),
   targetColumnId: z.string().min(1),
 });
 
-export class CreateTaskDto extends createZodDto(CreateTaskSchema) {}
-export class UpdateTaskDto extends createZodDto(UpdateTaskSchema) {}
-export class MoveTaskDto extends createZodDto(MoveTaskSchema) {}
+export class CreateTaskDto extends createZodDto(createTaskSchema) {}
+export class UpdateTaskDto extends createZodDto(updateTaskSchema) {}
+export class MoveTaskDto extends createZodDto(moveTaskSchema) {}

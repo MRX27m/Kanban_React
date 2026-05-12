@@ -7,66 +7,57 @@ import {
   Param,
   Body,
   UseGuards,
-  Request,
 } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { ColumnsService } from './columns.service';
-import { CreateColumnDto, UpdateColumnDto, MoveColumnDto } from './columns.dto';
+import {
+  CreateColumnDto,
+  UpdateColumnDto,
+  MoveColumnDto,
+  createColumnSchema,
+  updateColumnSchema,
+  moveColumnSchema,
+} from './columns.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { BoardsService } from '../boards/boards.service';
+import { BoardAccessGuard } from '../boards/board-access.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, BoardAccessGuard)
 @Controller('boards/:boardId/columns')
 export class ColumnsController {
-  constructor(
-    private readonly columnsService: ColumnsService,
-    private readonly boardsService: BoardsService,
-  ) {}
+  constructor(private readonly columnsService: ColumnsService) {}
 
   @Get()
-  async findAll(@Param('boardId') boardId: string, @Request() req) {
-    await this.boardsService.checkAccess(boardId, req.user.id);
+  findAll(@Param('boardId') boardId: string) {
     return this.columnsService.findAll(boardId);
   }
 
   @Post()
-  async create(
+  create(
     @Param('boardId') boardId: string,
-    @Body() dto: CreateColumnDto,
-    @Request() req,
+    @Body(new ZodValidationPipe(createColumnSchema)) dto: CreateColumnDto,
   ) {
-    await this.boardsService.checkAccess(boardId, req.user.id);
     return this.columnsService.create(boardId, dto);
   }
 
   @Patch(':id')
-  async update(
-    @Param('boardId') boardId: string,
+  update(
     @Param('id') id: string,
-    @Body() dto: UpdateColumnDto,
-    @Request() req,
+    @Body(new ZodValidationPipe(updateColumnSchema)) dto: UpdateColumnDto,
   ) {
-    await this.boardsService.checkAccess(boardId, req.user.id);
     return this.columnsService.update(id, dto);
   }
 
   @Patch(':id/move')
-  async move(
+  move(
     @Param('boardId') boardId: string,
     @Param('id') id: string,
-    @Body() dto: MoveColumnDto,
-    @Request() req,
+    @Body(new ZodValidationPipe(moveColumnSchema)) dto: MoveColumnDto,
   ) {
-    await this.boardsService.checkAccess(boardId, req.user.id);
     return this.columnsService.move(boardId, id, dto.direction);
   }
 
   @Delete(':id')
-  async remove(
-    @Param('boardId') boardId: string,
-    @Param('id') id: string,
-    @Request() req,
-  ) {
-    await this.boardsService.checkAccess(boardId, req.user.id);
+  remove(@Param('id') id: string) {
     return this.columnsService.remove(id);
   }
 }

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createZodDto } from 'nestjs-zod';
 
-const CreateBoardSchema = z.object({
+export const createBoardSchema = z.object({
   name: z
     .string()
     .min(1, 'Поле не може бути порожнім')
@@ -9,9 +9,9 @@ const CreateBoardSchema = z.object({
     .max(50, 'Максимум 50 символів'),
 });
 
-const AddMemberSchema = z.object({
+export const addMemberSchema = z.object({
   email: z.string().min(1, "Email обов'язковий").email('Невірний формат email'),
 });
 
-export class CreateBoardDto extends createZodDto(CreateBoardSchema) {}
-export class AddMemberDto extends createZodDto(AddMemberSchema) {}
+export class CreateBoardDto extends createZodDto(createBoardSchema) {}
+export class AddMemberDto extends createZodDto(addMemberSchema) {}
