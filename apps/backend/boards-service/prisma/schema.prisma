@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./boards.db"
+}
+
+model UserRef {
+  id      String        @id
+  email   String
+  name    String
+  boards  BoardMember[]
+}
+
+model Board {
+  id        String        @id @default(uuid())
+  name      String
+  createdAt DateTime      @default(now())
+  members   BoardMember[]
+}
+
+model BoardMember {
+  id      String  @id @default(uuid())
+  userId  String
+  boardId String
+  role    String  @default("member")
+  user    UserRef @relation(fields: [userId], references: [id], onDelete: Cascade)
+  board   Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, boardId])
+}

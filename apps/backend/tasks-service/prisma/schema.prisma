@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./tasks.db"
+}
+
+model ColumnRef {
+  id    String @id
+  tasks Task[]
+}
+
+model Task {
+  id       String    @id @default(uuid())
+  text     String
+  order    Int
+  columnId String
+  column   ColumnRef @relation(fields: [columnId], references: [id], onDelete: Cascade)
+}

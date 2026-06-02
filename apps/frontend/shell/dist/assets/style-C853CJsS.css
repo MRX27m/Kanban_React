@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(271deg, rgba(255, 39, 219, 0.2), rgba(102, 88, 255, 0.2)), #000;
+  min-height: 100vh;
+  font-family: 'Inder', sans-serif;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mfe-loading {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  text-align: center;
+  padding: 40px;
+}
